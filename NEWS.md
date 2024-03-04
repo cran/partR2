@@ -1,3 +1,6 @@
+# partR2 0.9.2
+* fix docs for CRAN
+
 # partR2 0.9.1
 
 * data argument is now optional.

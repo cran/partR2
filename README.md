@@ -1,12 +1,15 @@
 
 <!-- badges: start -->
 
-![Build
-Status](https://travis-ci.org/mastoffel/partR2.svg?branch=master)
+[![CRAN total
+downloads](http://cranlogs.r-pkg.org/badges/grand-total/partR2?color=blue)](https://cran.r-project.org/package=partR2)
+[![Monthly downloads
+badge](https://cranlogs.r-pkg.org/badges/last-month/partR2?color=blue)](https://CRAN.R-project.org/package=partR2)
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#maturing)
 [![Codecov test
-coverage](https://codecov.io/gh/mastoffel/partR2/branch/master/graph/badge.svg)](https://codecov.io/gh/mastoffel/partR2?branch=master)
+coverage](https://codecov.io/gh/mastoffel/partR2/branch/master/graph/badge.svg)](https://app.codecov.io/gh/mastoffel/partR2?branch=master)
+
 <!-- badges: end -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -18,31 +21,52 @@ variance explained by the predictors.
 
 The package takes a fitted lme4 model as input and gives you:
 
-  - R<sup>2</sup> (marginal or conditional)
-  - Part (semi-partial) R<sup>2</sup>, the variance explained uniquely
-    by each predictor and combinations of predictors
-  - Inclusive R<sup>2</sup>, the variance explained by a predictor
-    independent of all other predictors
-  - Structure coefficients, the correlation between a predictor and the
-    fitted response
-  - Beta weights, standardised model estimates
+- R<sup>2</sup> (marginal or conditional)
+- Part (semi-partial) R<sup>2</sup>, the variance explained uniquely by
+  each predictor and combinations of predictors
+- Inclusive R<sup>2</sup>, the variance explained by a predictor
+  independent of all other predictors
+- Structure coefficients, the correlation between a predictor and the
+  fitted response
+- Beta weights, standardised model estimates
 
 All estimates can be combined with parametric bootstrapping to get
 confidence intervals.
 
-`partR2` is still in an early phase of development and might contain
-bugs.
-
 ## Installation
 
-You can install the development version of `partR2` from GitHub with:
+You can install the stable version of `partR2` from CRAN with:
+
+``` r
+install.packages("partR2")
+```
+
+Or the development version from GitHub with:
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("mastoffel/partR2", build_vignettes = TRUE, dependencies = TRUE) 
+```
+
+Access the vignette with:
+
+``` r
 # check vignette
 browseVignettes("partR2")
 ```
+
+`partR2` is still in an early phase of development and might contain
+bugs. If you find one, please report a minimal reproducible example in
+the [issues](https://github.com/mastoffel/partR2/issues).
+
+### Citation
+
+When using `partR2`, please cite our
+[paper](https://peerj.com/articles/11414/):
+
+Stoffel MA, Nakagawa S, Schielzeth H. 2021. partR2: partitioning R2 in
+generalized linear mixed models. *PeerJ* **9**:e11414
+<https://doi.org/10.7717/peerj.11414>
 
 ## Example
 
@@ -63,25 +87,21 @@ mod <- lmer(Biomass ~  Year + Temperature + SpeciesDiversity + (1|Population),
 #> 
 #> 
 #> R2 (marginal) and 95% CI for the full model: 
-#> # A tibble: 1 x 5
-#>      R2 CI_lower CI_upper nboot   ndf
-#>   <dbl>    <dbl>    <dbl> <int> <dbl>
-#> 1 0.513    0.445    0.594   100     4
+#>  R2     CI_lower CI_upper nboot ndf
+#>  0.5133 0.4439   0.5908   100   4  
 #> 
 #> ----------
 #> 
 #> Part (semi-partial) R2:
-#> # A tibble: 8 x 6
-#>   `Predictor(s)`                       R2 CI_lower CI_upper nboot   ndf
-#>   <chr>                             <dbl>    <dbl>    <dbl> <int> <dbl>
-#> 1 Model                             0.513   0.445     0.594   100     4
-#> 2 SpeciesDiversity                  0.173   0.0762    0.282   100     3
-#> 3 Temperature                       0.306   0.221     0.398   100     3
-#> 4 Year                              0.014   0         0.145   100     3
-#> 5 SpeciesDiversity+Temperature      0.492   0.423     0.571   100     2
-#> 6 SpeciesDiversity+Year             0.186   0.0905    0.293   100     2
-#> 7 Temperature+Year                  0.328   0.246     0.417   100     2
-#> 8 SpeciesDiversity+Temperature+Year 0.513   0.445     0.594   100     1
+#>  Predictor(s)                      R2     CI_lower CI_upper nboot ndf
+#>  Model                             0.5133 0.4439   0.5908   100   4  
+#>  SpeciesDiversity                  0.1729 0.0736   0.2913   100   3  
+#>  Temperature                       0.3058 0.2193   0.4106   100   3  
+#>  Year                              0.0140 0.0000   0.1537   100   3  
+#>  SpeciesDiversity+Temperature      0.4916 0.4205   0.5714   100   2  
+#>  SpeciesDiversity+Year             0.1862 0.0883   0.3029   100   2  
+#>  Temperature+Year                  0.3276 0.2430   0.4293   100   2  
+#>  SpeciesDiversity+Temperature+Year 0.5133 0.4439   0.5908   100   1
 ```
 
 And to plot the results:
@@ -91,14 +111,3 @@ forestplot(R2, type = "R2", line_size = 0.7, text_size = 14, point_size = 3)
 ```
 
 ![](README-plot-1.png)<!-- -->
-
-### Citation
-
-When using `partR2`, please cite our
-[preprint](https://www.biorxiv.org/content/10.1101/2020.07.26.221168v1.abstract)
-for now, and look out for the peer-reviewed paper, which will hopefully
-come out soon.
-
-Stoffel, MA, Nakagawa, S, & Schielzeth, H (2020). partR2: Partitioning
-R2 in generalized linear mixed models. bioRxiv.
-[![](https://img.shields.io/badge/doi-10.1101/2020.07.26.221168-green.svg)](https://doi.org/10.1101/2020.07.26.221168)
